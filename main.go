@@ -33,7 +33,7 @@ func main() {
 	defer conn.Close(context.Background())
 
 	app := &handlers.App{DB: conn}
-	http.HandleFunc("/cards", middleware.WithCacheControl(3600, middleware.WithETag(app.CardsHandler)))
+	http.HandleFunc("/v0/cards", middleware.WithCacheControl(3600, middleware.WithETag(app.CardsHandler)))
 
 	port := "8080"
 	log.Printf("Server is running on port %s", port)
