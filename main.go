@@ -12,15 +12,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type App struct {
-	DB *pgx.Conn
-}
-
-type Card struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")

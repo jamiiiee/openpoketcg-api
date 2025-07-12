@@ -5,12 +5,8 @@ import (
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jamiiiee/openpoketcg-api/models"
 )
-
-type Card struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
 
 type App struct {
 	DB *pgx.Conn
@@ -24,9 +20,9 @@ func (app *App) CardsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer rows.Close()
 
-	var cards []Card
+	var cards []models.Card
 	for rows.Next() {
-		var card Card
+		var card models.Card
 		if err := rows.Scan(&card.ID, &card.Name); err != nil {
 			http.Error(w, "Failed to scan card", http.StatusInternalServerError)
 			return
