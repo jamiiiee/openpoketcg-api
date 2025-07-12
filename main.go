@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jamiiiee/openpoketcg-api/middleware"
 	"github.com/joho/godotenv"
 )
 
@@ -33,7 +34,7 @@ func main() {
 
 	app := &App{DB: conn}
 
-	http.HandleFunc("/cards", app.cardsHandler)
+	http.HandleFunc("/cards", middleware.WithCacheControl(3600, middleware.WithETag(app.cardsHandler)))
 
 	port := "8080"
 	log.Printf("Server is running on port %s", port)
