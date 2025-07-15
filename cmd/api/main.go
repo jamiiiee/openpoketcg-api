@@ -7,10 +7,14 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jamiiiee/openpoketcg-api/handlers"
-	"github.com/jamiiiee/openpoketcg-api/middleware"
+	"github.com/jamiiiee/openpoketcg-api/internal/handlers"
+	"github.com/jamiiiee/openpoketcg-api/internal/middleware"
 	"github.com/joho/godotenv"
 )
+
+type App struct {
+	DB *pgx.Conn
+}
 
 func main() {
 	if err := godotenv.Load(); err != nil {

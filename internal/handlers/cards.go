@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jamiiiee/openpoketcg-api/models"
+	"github.com/jamiiiee/openpoketcg-api/internal/models"
 )
 
 type App struct {
