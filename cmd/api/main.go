@@ -26,6 +26,7 @@ func main() {
 
 	app := &models.App{DB: pool}
 	http.HandleFunc("/v0/cards", middleware.WithCacheControl(3600, middleware.WithETag(handlers.CardsHandler(app))))
+	http.HandleFunc("/v0/cards/", middleware.WithETag(handlers.CardIDHandler(app)))
 
 	port := "8080"
 	log.Printf("Server is running on port %s", port)
