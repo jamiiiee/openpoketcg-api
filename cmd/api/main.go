@@ -36,6 +36,10 @@ func main() {
 	}
 	app := &models.App{DB: pool}
 
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("OK"))
+	})
+
 	http.HandleFunc("/v0/cards",
 		middleware.WithCORS(
 			middleware.WithCacheControl(3600,
