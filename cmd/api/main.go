@@ -18,6 +18,11 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		log.Fatal("Missing required environment variable: API_KEY")
+	}
+
 	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
@@ -25,8 +30,14 @@ func main() {
 	defer pool.Close()
 
 	app := &models.App{DB: pool}
-	http.HandleFunc("/v0/cards", middleware.WithCacheControl(3600, middleware.WithETag(handlers.CardsHandler(app))))
-	http.HandleFunc("/v0/cards/", middleware.WithETag(handlers.CardIDHandler(app)))
+	http.HandleFunc("/v0/cards",
+		middleware.WithCacheControl(3600,
+			middleware.RequireAPIKey(apiKey,
+				middleware.WithETag(handlers.CardsHandler(app)))))
+
+	http.HandleFunc("/v0/cards/",
+		middleware.RequireAPIKey(apiKey,
+			middleware.WithETag(handlers.CardIDHandler(app))))
 
 	port := "8080"
 	log.Printf("Server is running on port %s", port)
