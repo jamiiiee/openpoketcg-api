@@ -22,8 +22,12 @@ func main() {
 	if apiKey == "" {
 		log.Fatal("Missing required environment variable: API_KEY")
 	}
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		log.Fatal("Missing required environment variable: DATABASE_URL")
+	}
 
-	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	pool, err := pgxpool.New(context.Background(), dbURL)
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
