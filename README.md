@@ -1,4 +1,4 @@
-# OpenPokeTCG-API
+# OpenPokeTCG API
 
 This project is currently in Alpha, v0.1.0 and is not yet publicly available
 
